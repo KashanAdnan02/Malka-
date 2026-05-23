@@ -595,7 +595,6 @@ export default function Home() {
                     label="Weight (grams)"
                     name="grams"
                     placeholder="e.g. 3.45"
-                    type="number"
                     value={form.item}
                     onChange={handleChange}
                   />
@@ -603,7 +602,6 @@ export default function Home() {
                     label="Price (₨)"
                     name="price"
                     placeholder="e.g. 50000"
-                    type="number"
                     value={form.item}
                     onChange={handleChange}
                   />
@@ -613,7 +611,6 @@ export default function Home() {
                     value={form.item}
                     onChange={handleChange}
                     placeholder="e.g. 18"
-                    type="number"
                   />
                 </div>
               </div>
