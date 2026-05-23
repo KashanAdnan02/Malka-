@@ -595,20 +595,20 @@ export default function Home() {
                     label="Weight (grams)"
                     name="grams"
                     placeholder="e.g. 3.45"
-                    value={form.item}
+                    value={form.grams}
                     onChange={handleChange}
                   />
                   <InputField
                     label="Price (₨)"
                     name="price"
                     placeholder="e.g. 50000"
-                    value={form.item}
+                    value={form.price}
                     onChange={handleChange}
                   />
                   <InputField
                     label="Rati"
                     name="rati"
-                    value={form.item}
+                    value={form.rati}
                     onChange={handleChange}
                     placeholder="e.g. 18"
                   />
@@ -625,7 +625,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InputField
                     label="Shop Name"
-                    value={form.item}
+                    value={form.shopName}
                     onChange={handleChange}
                     name="shopName"
                     placeholder="e.g. Al Arsalan"
@@ -633,7 +633,7 @@ export default function Home() {
                   <InputField
                     label="Customer Name"
                     name="name"
-                    value={form.item}
+                    value={form.name}
                     onChange={handleChange}
                     placeholder="e.g. Arsalan"
                   />
@@ -641,7 +641,7 @@ export default function Home() {
                     <InputField
                       label="Phone Number"
                       name="number"
-                      value={form.item}
+                      value={form.number}
                       onChange={handleChange}
                       placeholder="e.g. 03001234567"
                       type="number"
