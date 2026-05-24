@@ -509,7 +509,7 @@ export default function ShopsPage() {
                   </div>
 
                   {/* actions */}
-                  <div className="mt-5 pt-5 border-t border-stone-50 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="mt-5 pt-5 border-t border-stone-50 flex gap-2 transition-opacity duration-200">
                     <button
                       onClick={() => openEdit(shop)}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-stone-50 hover:bg-amber-50 border border-stone-200 hover:border-amber-200 text-stone-500 hover:text-amber-600 text-xs font-semibold transition-all duration-200"
