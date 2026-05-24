@@ -2,8 +2,9 @@
 import Navbar from "@/components/Navbar";
 import { useState, useEffect, useRef } from "react";
 import { create, deleteData, getAll, update } from "@/lib/crud";
-const EMPTY = { shop_name: "", owner_name: "", phone: "", city: "" };
 
+
+const EMPTY = { shop_name: "", owner_name: "", phone: "", city: "" };
 function GemIcon({ className = "w-5 h-5" }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -26,23 +27,6 @@ function Avatar({ name }) {
       style={{ background: `hsl(${hue},55%,48%)` }}
     >
       {initials}
-    </div>
-  );
-}
-
-function StatCard({ label, value, icon, accent }) {
-  return (
-    <div className="relative bg-white rounded-3xl p-5 border border-stone-100 shadow-sm overflow-hidden group hover:shadow-md transition-shadow duration-300">
-      <div
-        className={`absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 ${accent}`}
-      />
-      <p className="text-2xl font-bold text-stone-800">{value}</p>
-      <p className="text-xs text-stone-400 font-medium mt-1 tracking-wide uppercase">
-        {label}
-      </p>
-      <span className="absolute bottom-4 right-4 text-xl opacity-30">
-        {icon}
-      </span>
     </div>
   );
 }
@@ -105,7 +89,7 @@ export default function ShopsPage() {
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const [toast, setToast] = useState(null);
-  const [view, setView] = useState("grid"); // "grid" | "list"
+  const [view, setView] = useState("list"); // "grid" | "list"
 
   const load = async () => {
     setLoading(true);
@@ -556,7 +540,6 @@ export default function ShopsPage() {
             ))}
           </div>
         ) : (
-          /* ── List View ── */
           <div className="space-y-3">
             {filtered.map((shop, i) => (
               <div

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { create, deleteData, getAll, update } from "@/lib/crud";
 import Navbar from "@/components/Navbar";
 import statusToast from "@/components/StatusToast";
-import InputField from "@/components/InputFeild";
 import RecordsTable from "@/components/RecordTable";
 import { StatsSkeleton } from "@/components/Skeleton";
 import RecordForm from "@/components/RecordForm";
@@ -13,11 +12,11 @@ const emptyForm = {
   grams: "",
   price: "",
   rati: "",
-  shopId: "", // ← new
+  shopId: "",
   shopName: "",
   name: "",
   number: "",
-  date: new Date().toISOString().split("T")[0], // ← new
+  date: new Date().toISOString().split("T")[0],
 };
 
 export default function Home() {
@@ -44,10 +43,17 @@ export default function Home() {
     else showToast("Failed to load records", "error");
     setFetching(false);
   };
+  const fetchShops = async () => {
+    setFetching(true);
+    const { data, error } = await getAll("shops");
+    if (!error) setShops(data || []);
+    else showToast("Failed to load shops", "error");
+    setFetching(false);
+  };
 
   useEffect(() => {
     fetchRecords();
-    getAll("shops").then(({ data }) => setShops(data || []));
+    fetchShops();
   }, []);
 
   const handleChange = (e) => {
@@ -242,7 +248,6 @@ export default function Home() {
             setActiveTab={setActiveTab}
           />
         )}
-
         {activeTab === "form" && (
           <RecordForm
             form={form}
@@ -256,8 +261,6 @@ export default function Home() {
           />
         )}
       </main>
-
-      {/* Delete confirmation modal */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
@@ -300,8 +303,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      {/* Toast */}
       {toast && statusToast(toast)}
     </div>
   );
