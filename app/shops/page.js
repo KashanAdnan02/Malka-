@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import { useState, useEffect, useRef } from "react";
 import { create, deleteData, getAll, update } from "@/lib/crud";
 
-
 const EMPTY = { shop_name: "", owner_name: "", phone: "", city: "" };
 function GemIcon({ className = "w-5 h-5" }) {
   return (
@@ -207,27 +206,6 @@ export default function ShopsPage() {
                 Manage all affiliated shops, their owners and contact details
                 from one place.
               </p>
-              <div className="flex flex-wrap gap-3 mt-6">
-                {[
-                  { label: "Total Shops", value: shops.length },
-                  { label: "Cities", value: cities.length },
-                ].map((s) => (
-                  <div
-                    key={s.label}
-                    className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-5 py-3"
-                  >
-                    <p className="text-xl font-bold text-white leading-none">
-                      {s.value}
-                    </p>
-                    <p
-                      className="text-xs text-stone-400 mt-1"
-                      style={{ fontFamily: "system-ui, sans-serif" }}
-                    >
-                      {s.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
             <button
               onClick={openCreate}
