@@ -1,8 +1,8 @@
-import { Inter } from "next/font/google";
+import { Inter , DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const dm_sans = DM_Sans({
+  variable: "--font-DM_Sans",
   subsets: ["latin"],
 });
 
@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${dm_sans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
