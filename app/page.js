@@ -13,9 +13,6 @@ const emptyForm = {
   price: "",
   rati: "",
   shopId: "",
-  shopName: "",
-  name: "",
-  number: "",
   date: new Date().toISOString().split("T")[0],
 };
 
@@ -61,30 +58,19 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
-    const required = [
-      "item",
-      "grams",
-      "price",
-      "rati",
-      "shopName",
-      "name",
-      "number",
-    ];
+    const required = ["item", "grams", "price", "rati", "shopId", "date"];
+    console.log(form);
     for (const field of required) {
       if (!form[field]) return showToast(`Please fill in all fields`, "error");
     }
-
     setLoading(true);
     const payload = {
       item: form.item,
       grams: parseFloat(form.grams),
       price: parseFloat(form.price),
       rati: parseFloat(form.rati),
-      user: {
-        shopName: form.shopName,
-        name: form.name,
-        number: parseFloat(form.number),
-      },
+      shopId: form.shopId,
+      date: form.date,
     };
 
     let result;
@@ -241,6 +227,7 @@ export default function Home() {
           <RecordsTable
             records={filtered}
             fetching={fetching}
+            shops={shops}
             search={search}
             setSearch={setSearch}
             handleEdit={handleEdit}
