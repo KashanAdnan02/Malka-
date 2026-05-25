@@ -11,9 +11,9 @@ import RecordForm from "@/components/RecordForm";
 
 const DAYS_HINGLISH = [
   "Itwar",
-  "Somwar",
-  "Mangalwar",
-  "Budhwar",
+  "Monday",
+  "Mangal",
+  "Budh",
   "Jumeraat",
   "Juma",
   "Hafta",
