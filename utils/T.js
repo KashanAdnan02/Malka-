@@ -1,0 +1,17 @@
+export const T = {
+  bg: "#f8fafc",
+  surface: "#ffffff",
+  card: "#ffffff",
+  border: "#e2e8f0",
+  borderHi: "#94a3b8",
+  gold: "#f0b429",
+  goldDim: "#c9921c",
+  emerald: "#34d399",
+  rose: "#fb7185",
+  blue: "#60a5fa",
+  violet: "#a78bfa",
+  cyan: "#22d3ee",
+  muted: "#64748b",
+  text: "#0f172a",
+  textDim: "#475569",
+};

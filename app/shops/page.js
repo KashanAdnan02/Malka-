@@ -1,82 +1,12 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, } from "react";
 import { create, deleteData, getAll, update } from "@/lib/crud";
-
+import GemIcon from "@/icons/GemIcon";
+import Field from "@/components/Field";
+import Modal from "@/components/Modals";
+import Avatar from "@/components/Avatar";
 const EMPTY = { shop_name: "", owner_name: "", phone: "", city: "" };
-function GemIcon({ className = "w-5 h-5" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M6 2L2 8l10 14L22 8l-4-6H6zm1.5 2h9l2.5 3.5H5L7.5 4zM4.5 9.5h15L12 20 4.5 9.5z" />
-    </svg>
-  );
-}
-
-function Avatar({ name }) {
-  const initials = name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-  const hue = [...name].reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
-  return (
-    <div
-      className="w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-bold text-white shrink-0 shadow-sm"
-      style={{ background: `hsl(${hue},55%,48%)` }}
-    >
-      {initials}
-    </div>
-  );
-}
-
-function Modal({ open, onClose, children }) {
-  const ref = useRef();
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-stone-900/40 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div
-        ref={ref}
-        className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-stone-100 overflow-hidden animate-modal"
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function Field({ label, name, value, onChange, type = "text", placeholder }) {
-  return (
-    <div>
-      <label className="block text-xs font-semibold text-stone-500 uppercase tracking-widest mb-2">
-        {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        value={type == "city" ? "Karachi" : value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className="w-full bg-stone-50 border border-stone-200 rounded-2xl px-4 py-3 text-sm text-stone-800 placeholder-stone-300
-          focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-300 transition-all hover:border-stone-300"
-      />
-    </div>
-  );
-}
 
 export default function ShopsPage() {
   const [shops, setShops] = useState([]);
@@ -88,7 +18,7 @@ export default function ShopsPage() {
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const [toast, setToast] = useState(null);
-  const [view, setView] = useState("list"); // "grid" | "list"
+  const [view, setView] = useState("list");
 
   const load = async () => {
     setLoading(true);
@@ -181,9 +111,7 @@ export default function ShopsPage() {
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
-        {/* ── Hero Section ── */}
         <section className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-stone-900 via-stone-800 to-amber-950 px-8 py-12 sm:py-16 text-white shadow-2xl">
-          {/* decorative rings */}
           <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full border border-amber-400/10" />
           <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full border border-amber-400/10" />
           <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-amber-500/5 blur-3xl" />
@@ -229,8 +157,6 @@ export default function ShopsPage() {
             </button>
           </div>
         </section>
-
-        {/* ── Controls ── */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <div className="relative flex-1">
             <svg
@@ -276,7 +202,6 @@ export default function ShopsPage() {
             )}
           </div>
 
-          {/* View toggle */}
           <div className="flex bg-white border border-stone-200 rounded-2xl p-1 shadow-sm">
             {[
               {
@@ -326,8 +251,6 @@ export default function ShopsPage() {
             ))}
           </div>
         </div>
-
-        {/* ── Content ── */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <div className="w-10 h-10 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
@@ -374,7 +297,6 @@ export default function ShopsPage() {
                 className="fade-up bg-white rounded-3xl border border-stone-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                {/* card top accent */}
                 <div className="h-1.5 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500" />
                 <div className="p-6">
                   <div className="flex items-start gap-4 mb-5">
@@ -470,7 +392,6 @@ export default function ShopsPage() {
                     )}
                   </div>
 
-                  {/* actions */}
                   <div className="mt-5 pt-5 border-t border-stone-50 flex gap-2 transition-opacity duration-200">
                     <button
                       onClick={() => openEdit(shop)}
@@ -624,9 +545,7 @@ export default function ShopsPage() {
         )}
       </main>
 
-      {/* ── Add/Edit Modal ── */}
       <Modal open={modalOpen} onClose={closeModal}>
-        {/* top bar */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100 bg-gradient-to-r from-stone-50 to-white">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-sm shadow-amber-200">
@@ -725,7 +644,6 @@ export default function ShopsPage() {
         </div>
       </Modal>
 
-      {/* ── Delete Confirm Modal ── */}
       <Modal open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
         <div
           className="p-8 text-center"
@@ -770,7 +688,6 @@ export default function ShopsPage() {
         </div>
       </Modal>
 
-      {/* ── Toast ── */}
       {toast && (
         <div
           className={`fixed bottom-6 right-6 z-[60] toast-in flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl text-sm font-semibold border
