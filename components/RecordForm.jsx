@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import InputField from "@/components/InputFeild";
-
+import { fetchGoldRates, rateForRati } from "@/utils/goldRate";
 // ── Icons ──────────────────────────────────────────────────────────────────────
 
 const ChevronIcon = ({ open }) => (
@@ -16,62 +16,162 @@ const ChevronIcon = ({ open }) => (
     viewBox="0 0 24 24"
     stroke="currentColor"
   >
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M19 9l-7 7-7-7"
+    />
   </svg>
 );
 
 const CheckIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2.5}
+      d="M5 13l4 4L19 7"
+    />
   </svg>
 );
 
 const ShopIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 22V12h6v10" />
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M9 22V12h6v10"
+    />
   </svg>
 );
 
 const CalendarIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
   </svg>
 );
 
 const EditIcon = () => (
-  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+  <svg
+    className="w-4 h-4 text-white"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+    />
   </svg>
 );
 
 const PlusIcon = ({ className = "w-4 h-4" }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2.5}
+      d="M12 4v16m8-8H4"
+    />
   </svg>
 );
 
 const CheckmarkIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2.5}
+      d="M5 13l4 4L19 7"
+    />
   </svg>
 );
 
 const UserIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+    />
   </svg>
 );
 
 const PhoneIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+    />
   </svg>
 );
 
 const BoxIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+    />
   </svg>
 );
 
@@ -83,10 +183,44 @@ const formatDisplay = (iso) => {
   if (!iso) return { en: "", ur: "" };
   const [y, m, d] = iso.split("-");
   const date = new Date(y, m - 1, d);
-  const daysEn = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  const daysUr = ["اتوار","پیر","منگل","بدھ","جمعرات","جمعہ","ہفتہ"];
-  const monthsEn = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const monthsUr = ["جنوری","فروری","مارچ","اپریل","مئی","جون","جولائی","اگست","ستمبر","اکتوبر","نومبر","دسمبر"];
+  const daysEn = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const daysUr = ["اتوار", "پیر", "منگل", "بدھ", "جمعرات", "جمعہ", "ہفتہ"];
+  const monthsEn = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const monthsUr = [
+    "جنوری",
+    "فروری",
+    "مارچ",
+    "اپریل",
+    "مئی",
+    "جون",
+    "جولائی",
+    "اگست",
+    "ستمبر",
+    "اکتوبر",
+    "نومبر",
+    "دسمبر",
+  ];
   return {
     en: `${daysEn[date.getDay()]}, ${d} ${monthsEn[m - 1]} ${y}`,
     ur: `${daysUr[date.getDay()]} ${monthsUr[m - 1]} ${y}`,
@@ -94,8 +228,6 @@ const formatDisplay = (iso) => {
 };
 
 const RATI_OPTIONS = [10, 14, 18, 22, 24];
-
-// ── Animated section ───────────────────────────────────────────────────────────
 
 function AnimatedSection({ children, delay = 0 }) {
   const [visible, setVisible] = useState(false);
@@ -108,15 +240,14 @@ function AnimatedSection({ children, delay = 0 }) {
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(14px)",
-        transition: "opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1)",
+        transition:
+          "opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
       {children}
     </div>
   );
 }
-
-// ── Section label ──────────────────────────────────────────────────────────────
 
 function SectionLabel({ icon, children }) {
   return (
@@ -131,12 +262,15 @@ function SectionLabel({ icon, children }) {
     </div>
   );
 }
-
-// ── Portal Dropdown ────────────────────────────────────────────────────────────
-// Renders the menu via a React Portal into document.body so it is never
-// clipped or buried by any ancestor's overflow / z-index stacking context.
-
-function Dropdown({ label, value, onChange, options, placeholder = "Select…", renderOption, renderTrigger }) {
+function Dropdown({
+  label,
+  value,
+  onChange,
+  options,
+  placeholder = "Select…",
+  renderOption,
+  renderTrigger,
+}) {
   const [open, setOpen] = useState(false);
   const [animIn, setAnimIn] = useState(false);
   const [menuStyle, setMenuStyle] = useState({});
@@ -148,8 +282,10 @@ function Dropdown({ label, value, onChange, options, placeholder = "Select…", 
     if (!open) return;
     const handler = (e) => {
       if (
-        triggerRef.current && !triggerRef.current.contains(e.target) &&
-        menuRef.current && !menuRef.current.contains(e.target)
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target) &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
       ) {
         closeMenu();
       }
@@ -217,9 +353,10 @@ function Dropdown({ label, value, onChange, options, placeholder = "Select…", 
         type="button"
         onClick={toggle}
         className={`w-full flex items-center justify-between gap-2 px-4 py-3 rounded-xl border text-sm bg-white text-left
-          ${open
-            ? "border-amber-400 shadow-[0_0_0_3px_rgba(251,191,36,0.15)]"
-            : "border-slate-200 hover:border-slate-300"
+          ${
+            open
+              ? "border-amber-400 shadow-[0_0_0_3px_rgba(251,191,36,0.15)]"
+              : "border-slate-200 hover:border-slate-300"
           }
           ${!value ? "text-slate-400" : "text-slate-800"}`}
         style={{ transition: "border-color 0.15s, box-shadow 0.15s" }}
@@ -246,13 +383,25 @@ function Dropdown({ label, value, onChange, options, placeholder = "Select…", 
               borderRadius: "1rem",
               boxShadow: "0 8px 30px rgba(0,0,0,0.10)",
               opacity: animIn ? 1 : 0,
-              transform: animIn ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.97)",
+              transform: animIn
+                ? "translateY(0) scale(1)"
+                : "translateY(-8px) scale(0.97)",
               transformOrigin: "top center",
-              transition: "opacity 0.2s cubic-bezier(0.16,1,0.3,1), transform 0.2s cubic-bezier(0.16,1,0.3,1)",
+              transition:
+                "opacity 0.2s cubic-bezier(0.16,1,0.3,1), transform 0.2s cubic-bezier(0.16,1,0.3,1)",
               overflow: "hidden",
             }}
           >
-            <ul style={{ listStyle: "none", margin: 0, padding: "6px 0", maxHeight: 240, overflowY: "auto", backgroundColor: "#fff" }}>
+            <ul
+              style={{
+                listStyle: "none",
+                margin: 0,
+                padding: "6px 0",
+                maxHeight: 240,
+                overflowY: "auto",
+                backgroundColor: "#fff",
+              }}
+            >
               {options.map((opt) => {
                 const val = opt.value ?? opt;
                 const isSelected = val === value;
@@ -266,13 +415,20 @@ function Dropdown({ label, value, onChange, options, placeholder = "Select…", 
                       }}
                       className={`w-full flex items-center justify-between px-4 py-2.5 text-sm text-left
                         ${isSelected ? "bg-amber-50" : "hover:bg-slate-50"}`}
-                      style={{ transition: "background 0.1s", border: "none", cursor: "pointer", backgroundColor: isSelected ? "#fffbeb" : "transparent" }}
+                      style={{
+                        transition: "background 0.1s",
+                        border: "none",
+                        cursor: "pointer",
+                        backgroundColor: isSelected ? "#fffbeb" : "transparent",
+                      }}
                     >
                       <span className="flex-1 min-w-0">
                         {renderOption ? (
                           renderOption(opt, isSelected)
                         ) : (
-                          <span className={`font-medium ${isSelected ? "text-amber-800" : "text-slate-700"}`}>
+                          <span
+                            className={`font-medium ${isSelected ? "text-amber-800" : "text-slate-700"}`}
+                          >
                             {opt.label}
                           </span>
                         )}
@@ -288,7 +444,7 @@ function Dropdown({ label, value, onChange, options, placeholder = "Select…", 
               })}
             </ul>
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );
@@ -309,9 +465,10 @@ function RatiPicker({ value, onChange }) {
               type="button"
               onClick={() => onChange(String(v))}
               className={`relative px-5 py-2.5 rounded-xl text-sm font-bold border overflow-hidden
-                ${active
-                  ? "bg-amber-500 border-amber-500 text-white shadow-sm shadow-amber-200"
-                  : "bg-white border-slate-200 text-slate-600 hover:border-amber-300 hover:text-amber-700 hover:bg-amber-50/50"
+                ${
+                  active
+                    ? "bg-amber-500 border-amber-500 text-white shadow-sm shadow-amber-200"
+                    : "bg-white border-slate-200 text-slate-600 hover:border-amber-300 hover:text-amber-700 hover:bg-amber-50/50"
                 }`}
               style={{
                 transition: "all 0.18s cubic-bezier(0.16,1,0.3,1)",
@@ -364,7 +521,9 @@ function ShopInfoCard({ shop }) {
             {item.icon}
             <p className="text-xs text-slate-400">{item.label}</p>
           </div>
-          <p className="text-sm font-bold text-slate-700 truncate">{item.value || "—"}</p>
+          <p className="text-sm font-bold text-slate-700 truncate">
+            {item.value || "—"}
+          </p>
         </div>
       ))}
     </div>
@@ -388,7 +547,9 @@ function DateBadge({ iso }) {
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">
           Today
         </span>
-        <p className="text-xs text-slate-400 mt-1" dir="rtl">{ur}</p>
+        <p className="text-xs text-slate-400 mt-1" dir="rtl">
+          {ur}
+        </p>
       </div>
     </div>
   );
@@ -407,7 +568,37 @@ export default function RecordForm({
   handleChange,
 }) {
   const selectedShop = shops.find((s) => s.id === form.shopId);
+  const [goldRates, setGoldRates] = useState(null);
+  const [rateLoading, setRateLoading] = useState(false);
+  const [rateError, setRateError] = useState(false);
+  const autoCalcRef = useRef(false);
+  useEffect(() => {
+    setRateLoading(true);
+    fetchGoldRates()
+      .then((rates) => {
+        setGoldRates(rates);
+        if (!rates) setRateError(true);
+      })
+      .finally(() => setRateLoading(false));
+  }, []);
+  useEffect(() => {
+    const grams = parseFloat(form.grams);
+    const rati = parseFloat(form.rati);
+    if (!goldRates || !grams || !rati || grams <= 0) return;
 
+    const ratePerGram = rateForRati(goldRates, rati);
+    if (!ratePerGram) return;
+
+    const price = Math.round(grams * ratePerGram);
+    const profit = Math.round(price * 0.05);
+
+    autoCalcRef.current = true;
+    setForm((prev) => ({
+      ...prev,
+      price: String(price),
+      profit: String(profit),
+    }));
+  }, [form.grams, form.rati, goldRates]);
   const handleShopSelect = (shopId) => {
     const shop = shops.find((s) => s.id === shopId);
     if (!shop) return;
@@ -428,19 +619,64 @@ export default function RecordForm({
         <div className="absolute bottom-0 right-20 w-12 h-12 rounded-full bg-amber-200/30" />
         <div className="relative flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-2xl bg-amber-500 flex items-center justify-center shadow-sm shadow-amber-200">
-            {editingId ? <EditIcon /> : <PlusIcon className="w-5 h-5 text-white" />}
+            {editingId ? (
+              <EditIcon />
+            ) : (
+              <PlusIcon className="w-5 h-5 text-white" />
+            )}
           </div>
           <div>
             <h2 className="text-sm font-bold text-slate-800">
               {editingId ? "Edit record" : "New record"}
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
-              {editingId ? "Update the details below" : "Fill in the details to add a new entry"}
+              {editingId
+                ? "Update the details below"
+                : "Fill in the details to add a new entry"}
             </p>
           </div>
         </div>
       </div>
-
+      {(rateLoading || goldRates || rateError) && (
+        <div
+          className={`sm:col-span-2 flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium
+    ${
+      rateError
+        ? "bg-red-50 border border-red-100 text-red-500"
+        : rateLoading
+          ? "bg-slate-50 border border-slate-100 text-slate-400"
+          : "bg-amber-50 border border-amber-100 text-amber-700"
+    }`}
+        >
+          {rateLoading ? (
+            <>
+              <div className="w-3 h-3 rounded-full border-2 border-slate-300 border-t-slate-500 animate-spin" />{" "}
+              Fetching live gold rate…
+            </>
+          ) : rateError ? (
+            <>⚠️ Live rate unavailable — enter price manually</>
+          ) : (
+            <>
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              Live 24k rate: ₨
+              {goldRates.price_gram_24k?.toLocaleString("en-PK", {
+                maximumFractionDigits: 0,
+              })}{" "}
+              / gram
+              {form.rati && form.rati !== "24" && (
+                <span className="ml-1 text-amber-500">
+                  · {form.rati} rati: ₨
+                  {rateForRati(
+                    goldRates,
+                    parseFloat(form.rati),
+                  )?.toLocaleString("en-PK", { maximumFractionDigits: 0 })}{" "}
+                  / gram
+                </span>
+              )}
+            </>
+          )}
+        </div>
+      )}
       {/* NOTE: removed overflow-hidden here so the portal can escape if needed.
           The card uses overflow-visible on the body area. */}
       <div className="p-6 space-y-8">
@@ -475,6 +711,26 @@ export default function RecordForm({
               value={form.price}
               onChange={handleChange}
             />
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-slate-500">
+                Profit (5%)
+                <span className="ml-2 text-[10px] font-normal text-emerald-500">
+                  auto
+                </span>
+              </label>
+              <div className="relative">
+                <input
+                  readOnly
+                  value={
+                    form.profit
+                      ? `₨${parseFloat(form.profit).toLocaleString("en-PK")}`
+                      : "—"
+                  }
+                  className="w-full rounded-xl border border-emerald-100 bg-emerald-50 text-sm py-3 px-4
+        text-emerald-700 font-semibold cursor-default outline-none select-none"
+                />
+              </div>
+            </div>
           </div>
         </AnimatedSection>
 
@@ -497,13 +753,17 @@ export default function RecordForm({
                 <div className="flex items-center gap-3 py-0.5">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                      isSelected ? "bg-amber-100 text-amber-600" : "bg-slate-100 text-slate-500"
+                      isSelected
+                        ? "bg-amber-100 text-amber-600"
+                        : "bg-slate-100 text-slate-500"
                     }`}
                   >
                     <ShopIcon />
                   </div>
                   <div className="min-w-0">
-                    <p className={`text-sm font-semibold truncate ${isSelected ? "text-amber-800" : "text-slate-800"}`}>
+                    <p
+                      className={`text-sm font-semibold truncate ${isSelected ? "text-amber-800" : "text-slate-800"}`}
+                    >
                       {opt.label}
                     </p>
                     <p className="text-xs text-slate-400 truncate">
@@ -519,7 +779,9 @@ export default function RecordForm({
                   </span>
                   <span className="font-semibold truncate">{opt.label}</span>
                   {opt.sub && (
-                    <span className="text-slate-400 font-normal text-xs truncate">· {opt.sub}</span>
+                    <span className="text-slate-400 font-normal text-xs truncate">
+                      · {opt.sub}
+                    </span>
                   )}
                 </span>
               )}

@@ -6,16 +6,117 @@ import statusToast from "@/components/StatusToast";
 import RecordsTable from "@/components/RecordTable";
 import { StatsSkeleton } from "@/components/Skeleton";
 import RecordForm from "@/components/RecordForm";
-import DateTimeHeader from "@/utils/DateTimeHeader";
 
 const emptyForm = {
   item: "",
   grams: "",
   price: "",
+  profit: "",
   rati: "",
   shopId: "",
   date: new Date().toISOString().split("T")[0],
 };
+const fmtISO = (d) => d.toISOString().split("T")[0];
+
+const presets = {
+  today: () => {
+    const t = new Date();
+    return { from: fmtISO(t), to: fmtISO(t), label: "Today" };
+  },
+  yesterday: () => {
+    const y = new Date();
+    y.setDate(y.getDate() - 1);
+    return { from: fmtISO(y), to: fmtISO(y), label: "Yesterday" };
+  },
+  week: () => {
+    const t = new Date();
+    const s = new Date(t);
+    s.setDate(t.getDate() - t.getDay());
+    return { from: fmtISO(s), to: fmtISO(t), label: "This week" };
+  },
+  month: () => {
+    const t = new Date();
+    return {
+      from: fmtISO(new Date(t.getFullYear(), t.getMonth(), 1)),
+      to: fmtISO(t),
+      label: "This month",
+    };
+  },
+  all: () => ({ from: "", to: "", label: "All" }),
+};
+
+// ── Date Filter Bar ────────────────────────────────────────────────────────────
+
+function DateFilterBar({
+  dateFrom,
+  dateTo,
+  activePreset,
+  onDateChange,
+  onPresetClick,
+}) {
+  return (
+    <div className="bg-white border border-slate-100 rounded-2xl px-5 py-4 flex flex-wrap items-center gap-4 shadow-sm">
+      {/* Calendar icon + inputs */}
+      <div className="flex items-center gap-3 flex-1 min-w-0 flex-wrap">
+        <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500 shrink-0">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+        <span className="text-xs font-medium text-slate-400 whitespace-nowrap">
+          Date range
+        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => onDateChange("from", e.target.value)}
+            className="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 bg-slate-50
+              focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all"
+          />
+          <span className="text-slate-300 text-sm">—</span>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => onDateChange("to", e.target.value)}
+            className="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 bg-slate-50
+              focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all"
+          />
+        </div>
+      </div>
+
+      {/* Quick presets */}
+      <div className="flex gap-2 flex-wrap">
+        {Object.entries(presets).map(([key, fn]) => (
+          <button
+            key={key}
+            onClick={() => onPresetClick(key)}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-150
+              ${
+                activePreset === key
+                  ? "bg-amber-500 text-white border-amber-500"
+                  : "border-slate-200 text-slate-500 hover:border-amber-300 hover:text-amber-600 hover:bg-amber-50"
+              }`}
+          >
+            {fn().label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [records, setRecords] = useState([]);
@@ -28,6 +129,11 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [activeTab, setActiveTab] = useState("records");
+
+  // Date filter state — default to "today"
+  const [dateFrom, setDateFrom] = useState(fmtISO(new Date()));
+  const [dateTo, setDateTo] = useState(fmtISO(new Date()));
+  const [activePreset, setActivePreset] = useState("today");
 
   const showToast = (message, type = "success") => {
     setToast({ message, type });
@@ -53,20 +159,34 @@ export default function Home() {
     fetchShops();
   }, []);
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleDateChange = (side, value) => {
+    if (side === "from") setDateFrom(value);
+    else setDateTo(value);
+    setActivePreset(null); // deselect preset when user types manually
   };
+
+  const handlePresetClick = (key) => {
+    const { from, to } = presets[key]();
+    setDateFrom(from);
+    setDateTo(to);
+    setActivePreset(key);
+  };
+
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async () => {
     const required = ["item", "grams", "price", "rati", "shopId", "date"];
     for (const field of required) {
-      if (!form[field]) return showToast(`Please fill in all fields`, "error");
+      if (!form[field]) return showToast("Please fill in all fields", "error");
     }
     setLoading(true);
     const payload = {
       item: form.item,
       grams: parseFloat(form.grams),
       price: parseFloat(form.price),
+      profit:
+        parseFloat(form.profit) || Math.round(parseFloat(form.price) * 0.05),
       rati: parseFloat(form.rati),
       shopId: form.shopId,
       date: form.date,
@@ -76,15 +196,14 @@ export default function Home() {
       ? await update(editingId, payload, "records")
       : await create(payload, "records");
 
-    const { error } = result;
-    if (!error) {
+    if (!result.error) {
       showToast(editingId ? "Record update ho gaya!" : "Record save ho gaya!");
       setForm(emptyForm);
       setEditingId(null);
       fetchRecords();
       setActiveTab("records");
     } else {
-      showToast(error?.message || "Kuch masla aa gaya", "error");
+      showToast(result.error?.message || "Kuch masla aa gaya", "error");
     }
     setLoading(false);
   };
@@ -94,6 +213,7 @@ export default function Home() {
       item: record.item || "",
       grams: record.grams || "",
       price: record.price || "",
+      profit: record.profit || "",
       rati: record.rati || "",
       shopId: record.shopId || "",
       date: record.date || emptyForm.date,
@@ -118,15 +238,18 @@ export default function Home() {
     setEditingId(null);
     setActiveTab("records");
   };
-  const today = new Date().toISOString().split("T")[0];
 
+  // ── Filter records by date range + search ──────────────────────────────────
   const filtered = records.filter((r) => {
     const recordDate = r.date?.split("T")[0] ?? r.date;
-    if (recordDate !== today) return false;
 
+    // Date range check (skip if bounds are empty = "All")
+    if (dateFrom && recordDate < dateFrom) return false;
+    if (dateTo && recordDate > dateTo) return false;
+
+    // Search filter
     const q = search.toLowerCase();
     if (!q) return true;
-
     const shop = shops.find((s) => String(s.id) === String(r.shopId));
     return (
       r.item?.toLowerCase().includes(q) ||
@@ -135,6 +258,7 @@ export default function Home() {
     );
   });
 
+  // ── Stats computed from ALL records (not date-filtered) ────────────────────
   const totalValue = records.reduce(
     (sum, r) => sum + (parseFloat(r.price) || 0),
     0,
@@ -145,57 +269,44 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/30 to-slate-100 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-100 font-sans">
       <Navbar />
-      <main className="max-w-6xl mx-auto px-6 py-8 space-y-6">
-        <DateTimeHeader recordCount={filtered.length} />
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-5">
+        {/* Date filter bar */}
+        <DateFilterBar
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          activePreset={activePreset}
+          onDateChange={handleDateChange}
+          onPresetClick={handlePresetClick}
+        />
         {fetching ? (
           <StatsSkeleton />
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              {
-                label: "Kul Records",
-                value: records.length,
-                icon: "📦",
-                color: "from-blue-500 to-blue-600",
-              },
+              { label: "Kul Records", icon: "📦", value: filtered.length },
               {
                 label: "Kul Wazan",
-                value: `${totalGrams.toFixed(2)}g`,
                 icon: "⚖️",
-                color: "from-amber-500 to-amber-600",
+                value: `${filtered.reduce((s, r) => s + (parseFloat(r.grams) || 0), 0).toFixed(2)}g`,
               },
               {
                 label: "Kul Qeemat",
-                value: `₨${totalValue.toLocaleString("en-PK")}`,
                 icon: "💰",
-                color: "from-emerald-500 to-emerald-600",
+                value: `₨${filtered.reduce((s, r) => s + (parseFloat(r.price) || 0), 0).toLocaleString("en-PK")}`,
               },
               {
-                label: "Ausat Rati",
-                value: records.length
-                  ? (
-                      records.reduce(
-                        (s, r) => s + (parseFloat(r.rati) || 0),
-                        0,
-                      ) / records.length
-                    ).toFixed(1)
-                  : "—",
-                icon: "📊",
-                color: "from-purple-500 to-purple-600",
+                label: "Kul Munafa",
+                icon: "📈",
+                value: `₨${filtered.reduce((s, r) => s + (parseFloat(r.profit) || parseFloat(r.price) * 0.05 || 0), 0).toLocaleString("en-PK")}`,
               },
             ].map((stat) => (
               <div
                 key={stat.label}
                 className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-2xl">{stat.icon}</span>
-                  <div
-                    className={`w-2 h-2 rounded-full bg-gradient-to-r ${stat.color}`}
-                  />
-                </div>
+                <span className="text-2xl block mb-3">{stat.icon}</span>
                 <p className="text-xl font-bold text-slate-800 leading-none">
                   {stat.value}
                 </p>
@@ -205,13 +316,11 @@ export default function Home() {
           </div>
         )}
 
+        {/* Tabs */}
         <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
           {[
-            { id: "records", label: "Aaj Ke Records" },
-            {
-              id: "form",
-              label: editingId ? "Record Edit Karein" : "Record Add Karein",
-            },
+            { id: "records", label: "Records" },
+            { id: "form", label: editingId ? "Edit Record" : "Add Record" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -253,6 +362,7 @@ export default function Home() {
         )}
       </main>
 
+      {/* Delete confirm modal */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">

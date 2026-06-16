@@ -7,26 +7,66 @@ import { TableSkeleton } from "./Skeleton";
 // ── Icons ──────────────────────────────────────────────────────────────────────
 
 const SearchIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
   </svg>
 );
 
 const XIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M6 18L18 6M6 6l12 12"
+    />
   </svg>
 );
 
 const EditIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+    />
   </svg>
 );
 
 const TrashIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+    />
   </svg>
 );
 
@@ -38,21 +78,56 @@ const WhatsAppIcon = () => (
 );
 
 const InboxIcon = () => (
-  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+  <svg
+    className="w-8 h-8"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+    />
   </svg>
 );
 
 const ShopIcon = () => (
-  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 22V12h6v10" />
+  <svg
+    className="w-3 h-3"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M9 22V12h6v10"
+    />
   </svg>
 );
 
 const CalendarIcon = () => (
-  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  <svg
+    className="w-3 h-3"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
   </svg>
 );
 
@@ -108,7 +183,8 @@ function RatiBadge({ rati }) {
 function ActionButton({ onClick, title, variant, children }) {
   const styles = {
     edit: "border-slate-200 text-slate-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200",
-    delete: "border-slate-200 text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-200",
+    delete:
+      "border-slate-200 text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-200",
   };
   return (
     <button
@@ -215,7 +291,9 @@ function TableRow({ record, shop, onEdit, onDelete }) {
 
       {/* Weight */}
       <td className="px-4 py-3.5">
-        <span className="text-sm text-slate-600 font-medium">{record.grams}g</span>
+        <span className="text-sm text-slate-600 font-medium">
+          {record.grams}g
+        </span>
       </td>
 
       {/* Price */}
@@ -224,7 +302,14 @@ function TableRow({ record, shop, onEdit, onDelete }) {
           ₨{parseFloat(record.price ?? 0).toLocaleString("en-PK")}
         </span>
       </td>
-
+      <td className="px-4 py-3.5">
+        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 border border-emerald-100 text-xs font-semibold text-emerald-700">
+          ₨
+          {parseFloat(
+            record.profit ?? parseFloat(record.price) * 0.05,
+          ).toLocaleString("en-PK", { maximumFractionDigits: 0 })}
+        </span>
+      </td>
       {/* Shop — resolved from shopId */}
       <td className="px-4 py-3.5">
         <ShopCell shop={shop} />
@@ -238,10 +323,18 @@ function TableRow({ record, shop, onEdit, onDelete }) {
       {/* Actions */}
       <td className="px-4 py-3.5">
         <div className="flex items-center justify-end gap-1.5">
-          <ActionButton onClick={() => onEdit(record)} title="Edit" variant="edit">
+          <ActionButton
+            onClick={() => onEdit(record)}
+            title="Edit"
+            variant="edit"
+          >
             <EditIcon />
           </ActionButton>
-          <ActionButton onClick={() => onDelete(id)} title="Delete" variant="delete">
+          <ActionButton
+            onClick={() => onDelete(id)}
+            title="Delete"
+            variant="delete"
+          >
             <TrashIcon />
           </ActionButton>
         </div>
@@ -261,7 +354,9 @@ function EmptyState({ search, onAddClick }) {
       <div>
         <p className="text-sm font-semibold text-slate-600">No records found</p>
         <p className="text-xs text-slate-400 mt-1">
-          {search ? "Try a different search term" : "Add your first record to get started"}
+          {search
+            ? "Try a different search term"
+            : "Add your first record to get started"}
         </p>
       </div>
       {!search && (
@@ -280,7 +375,7 @@ function EmptyState({ search, onAddClick }) {
 
 export default function RecordsTable({
   records = [],
-  shops = [],           // ← array of shop objects with id, shop_name, owner_name, phone
+  shops = [], // ← array of shop objects with id, shop_name, owner_name, phone
   fetching = false,
   search,
   setSearch,
@@ -306,7 +401,16 @@ export default function RecordsTable({
           );
         });
 
-  const columns = ["Item", "Rati", "Weight", "Price", "Shop", "Contact", ""];
+  const columns = [
+    "Item",
+    "Rati",
+    "Weight",
+    "Price",
+    "Profit",
+    "Shop",
+    "Contact",
+    "",
+  ];
 
   return (
     <div className="space-y-3">
@@ -340,7 +444,10 @@ export default function RecordsTable({
           <EmptyState search={q} onAddClick={() => setActiveTab?.("form")} />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left" style={{ tableLayout: "fixed", minWidth: 700 }}>
+            <table
+              className="w-full text-left"
+              style={{ tableLayout: "fixed", minWidth: 700 }}
+            >
               <colgroup>
                 <col style={{ width: "20%" }} />
                 <col style={{ width: "9%" }} />
@@ -392,5 +499,5 @@ export default function RecordsTable({
         </p>
       )}
     </div>
-  );              
+  );
 }
